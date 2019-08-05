@@ -48,7 +48,9 @@ def bootstrap(data,bootFunc,iterations):
 
 
 def InjectFactors(df,columns):
-    result = df;
+    result = pd.DataFrame(df);
     for col in columns:
-        result[col] = pd.factorize(df[col])[0]
+        dummies = pd.get_dummies(df[col], drop_first=True,prefix=col)
+        result = result.drop([col], axis=1)
+        result = pd.concat([result, dummies], axis=1)      
     return result
